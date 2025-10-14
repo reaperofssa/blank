@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ellena's 17th Birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Montserrat", sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Elegant animated background */
+  .bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(186, 85, 211, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 105, 180, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+    animation: bgShift 20s ease-in-out infinite;
+    z-index: 1;
+  }
+
+  @keyframes bgShift {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+
+  /* Elegant floating sparkles */
+  .sparkle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: sparkleFloat 8s infinite ease-in-out;
+    z-index: 2;
+  }
+
+  @keyframes sparkleFloat {
+    0%, 100% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+    10% { transform: translateY(-20px) translateX(10px) scale(1); opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-100vh) translateX(40px) scale(0); opacity: 0; }
+  }
+
+  .container {
+    text-align: center;
+    z-index: 10;
+    padding: 80px 60px;
+    max-width: 900px;
+    width: 95%;
+    position: relative;
+    animation: fadeInUp 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Elegant decorative lines */
+  .decorative-line {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    margin: 0 auto 30px;
+    animation: lineGlow 3s ease-in-out infinite;
+  }
+
+  @keyframes lineGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .subtitle-top {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.85em;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 25px;
+  }
+
+  .name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 7em;
+    font-weight: 300;
+    letter-spacing: 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 50%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    position: relative;
+    animation: nameFade 2s ease-in-out;
+    text-shadow: 0 0 60px rgba(255, 255, 255, 0.3);
+  }
+
+  @keyframes nameFade {
+    from { opacity: 0; letter-spacing: 15px; }
+    to { opacity: 1; letter-spacing: 8px; }
+  }
+
+  .age {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 2.5em;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 3px;
+    margin-bottom: 50px;
+  }
+
+  .countdown-label {
+    font-size: 0.75em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 35px;
+  }
+
+  #countdown {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+
+  .time-unit {
+    position: relative;
+    padding: 0;
+    min-width: 140px;
+  }
+
+  .time-unit::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    transition: all 0.4s ease;
+  }
+
+  .time-unit:hover::before {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+
+  .time-value {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 5em;
+    font-weight: 300;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .time-unit:hover .time-value {
+    transform: scale(1.05);
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+  }
+
+  .time-label {
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 15px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 300;
+  }
+
+  .colon {
+    font-size: 4em;
+    color: rgba(255, 255, 255, 0.3);
+    align-self: center;
+    font-weight: 200;
+    margin-top: -30px;
+  }
+
+  .birthday-message {
+    animation: messageAppear 2s ease-out forwards;
+  }
+
+  @keyframes messageAppear {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .birthday-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 5em;
+    font-weight: 300;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffd700 0%, #fff 50%, #ffd700 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: goldShimmer 3s ease-in-out infinite;
+    letter-spacing: 6px;
+  }
+
+  @keyframes goldShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .birthday-subtitle {
+    font-size: 1.3em;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 300;
+  }
+
+  .birthday-emoji {
+    display: inline-block;
+    font-size: 1.5em;
+    margin: 0 10px;
+    animation: floatEmoji 2s ease-in-out infinite;
+  }
+
+  @keyframes floatEmoji {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(10deg); }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding: 50px 30px;
+    }
+
+    .name {
+      font-size: 4em;
+      letter-spacing: 4px;
+    }
+
+    .age {
+      font-size: 1.8em;
+    }
+
+    #countdown {
+      gap: 20px;
+    }
+
+    .time-unit {
+      min-width: 90px;
+    }
+
+    .time-value {
+      font-size: 3.5em;
+    }
+
+    .time-label {
+      font-size: 0.6em;
+    }
+
+    .colon {
+      font-size: 2.5em;
+      margin-top: -20px;
+    }
+
+    .birthday-title {
+      font-size: 3em;
+    }
+
+    .birthday-subtitle {
+      font-size: 1em;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="bg-overlay"></div>
+  
+  <div class="container">
+    <div class="subtitle-top">Celebrating</div>
+    <div class="name">ELLENA</div>
+    <div class="age">Seventeen</div>
+    <div class="decorative-line"></div>
+    <div class="countdown-label">Time Until Celebration</div>
+    <div id="countdown"></div>
+  </div>
+
+  <script>
+    // Create elegant sparkles
+    for (let i = 0; i < 50; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.animationDelay = Math.random() * 8 + 's';
+      sparkle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+      document.body.appendChild(sparkle);
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const germanyTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Berlin" }));
+      let target = new Date(germanyTime);
+      target.setHours(24, 0, 0, 0);
+      const diff = target - germanyTime;
+      const countdownEl = document.getElementById("countdown");
+      
+      if (diff <= 0) {
+        countdownEl.innerHTML = `
+          <div class="birthday-message">
+            <div class="birthday-title">
+              <span class="birthday-emoji">✨</span>
+              Happy Birthday
+              <span class="birthday-emoji">✨</span>
+            </div>
+            <div class="birthday-subtitle">Wishing you the most beautiful seventeenth year</div>
+          </div>
+        `;
+        clearInterval(timer);
+        return;
+      }
+      
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      
+      countdownEl.innerHTML = `
+        <div class="time-unit">
+          <div class="time-value">${hours.toString().padStart(2, '0')}</div>
+          <div class="time-label">Hours</div>
+        </div>
+        <div class="colon">:</div>
+        <div class="time-unit">
+          <div class="time-value">${minutes.toString().padStart(2, '0')}</div>
+          <div class="time-label">Minutes</div>
+        </div>
+        <div class="colon">:</div>
+        <div class="time-unit">
+          <div class="time-value">${seconds.toString().padStart(2, '0')}</div>
+          <div class="time-label">Seconds</div>
+        </div>
+      `;
+    }
+    
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
